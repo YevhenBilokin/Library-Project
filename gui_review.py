@@ -60,7 +60,7 @@ def open_borrow_book():
 
     borrow_book = tk.Toplevel()
     borrow_book.title("Взять книгу")
-    root.geometry("600x400")
+    borrow_book.geometry("600x400")
 
     #Информации о пользователе в правом верхнем углу
     user_info_text = tk.Label(borrow_book, text=f"Вы вошли под логином: {user_name.name}")
@@ -70,10 +70,15 @@ def open_borrow_book():
     log_out_button = tk.Button(borrow_book, text="Выход", command=lambda: log_out(borrow_book))
     log_out_button.pack(anchor="ne", side="top")
 
+    #Заголовок в окне
     borrow_book_title = tk.Label(borrow_book, text="Выберите книгу которую хотите взять")
     borrow_book_title.pack(anchor="center", side="top")
 
 
+    brw_books_list = tk.Listbox(borrow_book)
+    for i in lb.Library.get_list:
+        for x in len(lb.library.books_list):
+            brw_books_list.insert(x, i.title)
 
 
 
