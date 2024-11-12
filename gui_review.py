@@ -1,22 +1,28 @@
 import tkinter as tk
 from tkinter import messagebox
 from library_code import main as lb
+import database as db
 
 #Функция для проверки логина и пароля
 def loggin():
     global user_name
 
-    user_name = lb.Reader(entry_log.get())
+    user_get_name = entry_log.get()
+    user_name = lb.Reader(user_get_name)
     user_password = entry_password.get()
 
-    if user_name and user_password:
-        root.withdraw() #Скрываем окно входа
-        
-        #Открытие личного кабинета
-        open_dashboard()
-    else:
-        messagebox.showerror("Ошибка", "Логин не был введен!")
+    user = db.get_user(user_get_name)
 
+    if user and user[2] == user_password:
+        if user[3] == 'admin':
+            messagebox.showinfo("Вы вошли в систему как админ")
+            open_dashboard()
+        if user[3] == 'user':
+            messagebox.showinfo("Вы вошли в систему!")
+            open_dashboard()
+    else:
+        messagebox.showerror("Проблема со входом, попробуйте еще раз!")
+        
 #Функция для возвращения к меню авторизации
 def log_out(dashboard):
     dashboard.destroy()
