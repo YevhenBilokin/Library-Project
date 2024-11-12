@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import messagebox
-
+from library_code import main as lb
 
 #Функция для проверки логина и пароля
 def loggin():
-    user_name = entry_log.get()
+    global user_name
+
+    user_name = lb.Reader(entry_log.get())
     user_password = entry_password.get()
 
     if user_name and user_password:
@@ -15,15 +17,31 @@ def loggin():
     else:
         messagebox.showerror("Ошибка", "Логин не был введен!")
 
+def log_out(dashboard):
+    dashboard.destroy()
+    root.deiconify()
+
 #Открытие окна личного кабинета
 def open_dashboard():
     dashboard = tk.Toplevel()
     dashboard.title("Личный кабинет")
     dashboard.geometry("600x400")
 
+    #Информации о пользователе в правом верхнем углу
+    user_info_text = tk.Label(dashboard, text=f"Вы вошли под логином: {user_name.name}")
+    user_info_text.pack(anchor="ne", side="top")
+
+    #Кнопка выхода с личного кабинета
+    log_out_button = tk.Button(dashboard, text="Выход", command=lambda: log_out(dashboard))
+    log_out_button.pack(anchor="ne", side="top")
+
     #Заголовок в окне
     library_info_text = tk.Label(dashboard, text="Библиотека")
     library_info_text.pack(anchor="center", side="top")
+    
+
+
+
 
 
 
