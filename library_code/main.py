@@ -71,7 +71,21 @@ class Library:
         return self.books_list
             
 
+library = Library()
 
+book1 = PrintedBook("Python Programming", "John Doe", 2021, )
+book2 = Ebook("Data Science for Beginners", "Jane Smith", 2022, )
+
+reader1 = Reader("Caya")
+
+library.add_book(book1)
+library.add_book(book2)
+
+for i in library.get_list:
+    print(i)
+
+
+"""
 if __name__ == "__main__":
     library = Library()
 
@@ -89,3 +103,4 @@ if __name__ == "__main__":
     library.borrow_book("Data Science for Beginners", reader1)
 
     library.return_book("Data Science for Beginners", reader1)
+"""

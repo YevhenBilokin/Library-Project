@@ -3,6 +3,9 @@ from tkinter import messagebox
 from library_code import main as lb
 import database as db
 
+library = lb.Library()
+
+
 #Функция для проверки логина и пароля
 def loggin():
     global user_name
@@ -65,6 +68,9 @@ def open_dashboard():
 #Личный кабинет админа
 def opem_admin_dashboard():
     global admin_dashboard
+    global get_title
+    global get_author
+    global get_year
 
     admin_dashboard = tk.Toplevel()
     admin_dashboard.title("Личный кабинет админа")
@@ -97,8 +103,34 @@ def opem_admin_dashboard():
     year_text.pack(anchor="center", side="left")
     get_year.pack(anchor="center", side="left")
 
-    send_info = tk.Button(admin_dashboard, text="Press")
+    send_info = tk.Button(admin_dashboard, text="Press", command=add_book)
     send_info.pack(anchor="center", side="left")
+
+    cb = tk.Button(admin_dashboard, text="тест", command=tester)
+    cb.pack(anchor="center", side="left")
+
+#Добавления книги в библиотеку
+def add_book():
+    #Достаем данные которые ввел пользователь
+    title = get_title.get()
+    author = get_author.get()
+    year = get_year.get()
+    book = lb.Book(title, author, int(year))#Создаем из полученой информации класс
+
+    library.add_book(book)
+
+    #Чистим поля ввода
+    get_title.delete(0, 'end')
+    get_author.delete(0, 'end')
+    get_year.delete(0, 'end')
+
+    #При вовыде получем ссылку на список,  нужно это исправить
+
+
+#Проверка на добавление книг в список
+def tester():
+    for i in library.get_list:
+        print(i)
 
 def open_borrow_book():
     dashboard.destroy()
