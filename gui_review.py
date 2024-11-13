@@ -15,9 +15,11 @@ def loggin():
 
     if user and user[2] == user_password:
         if user[3] == 'admin':
+            root.withdraw()
             messagebox.showinfo("Вы вошли в систему как админ")
-            open_dashboard()
-        if user[3] == 'user':
+            opem_admin_dashboard()
+        elif user[3] == 'user':
+            root.withdraw()
             messagebox.showinfo("Вы вошли в систему!")
             open_dashboard()
     else:
@@ -60,6 +62,43 @@ def open_dashboard():
     return_book_button.pack(side="left", padx=10)
     borrow_book_list_button.pack(side="left", padx=10)
 
+#Личный кабинет админа
+def opem_admin_dashboard():
+    global admin_dashboard
+
+    admin_dashboard = tk.Toplevel()
+    admin_dashboard.title("Личный кабинет админа")
+    admin_dashboard.geometry("600x400")
+
+    #Информации о пользователе в правом верхнем углу
+    user_info_text = tk.Label(admin_dashboard, text=f"Вы вошли как админ под логином: {user_name.name}")
+    user_info_text.pack(anchor="ne", side="top")
+
+    #Кнопка выхода с личного кабинета
+    log_out_button = tk.Button(admin_dashboard, text="Выход", command=lambda: log_out(admin_dashboard))
+    log_out_button.pack(anchor="ne", side="top")
+
+    #Заголовок в окне
+    library_info_text = tk.Label(admin_dashboard, text="Добавление книги в библиотеку")
+    library_info_text.pack(anchor="center", side="top")
+
+    title_text = tk.Label(admin_dashboard, text="Введите название книги")
+    get_title = tk.Entry(admin_dashboard, fg="black", bg="white")
+    title_text.pack(anchor="center", side="left")
+    get_title.pack(anchor="center", side="left")
+
+    author_text = tk.Label(admin_dashboard, text="Введите автора книги")
+    get_author = tk.Entry(admin_dashboard, fg="black", bg="white")
+    author_text.pack(anchor="center", side="left")
+    get_author.pack(anchor="center", side="left")
+
+    year_text = tk.Label(admin_dashboard, text="Введите год выпуска книги")
+    get_year = tk.Entry(admin_dashboard, fg="black", bg="white")
+    year_text.pack(anchor="center", side="left")
+    get_year.pack(anchor="center", side="left")
+
+    send_info = tk.Button(admin_dashboard, text="Press")
+    send_info.pack(anchor="center", side="left")
 
 def open_borrow_book():
     dashboard.destroy()
@@ -94,7 +133,7 @@ def open_borrow_book():
     for i in lb.Library.get_list:
         for x in len(lb.library.books_list):
             brw_books_list.insert(x, i.title)
-
+    
 
 
 root = tk.Tk()
