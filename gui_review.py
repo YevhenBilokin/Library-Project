@@ -124,12 +124,9 @@ def add_book():
     get_author.delete(0, 'end')
     get_year.delete(0, 'end')
 
-    #При вовыде получем ссылку на список,  нужно это исправить
-
-
 #Проверка на добавление книг в список
 def tester():
-    for i in library.get_list:
+    for i in library.get_list():
         print(i)
 
 def open_borrow_book():
@@ -153,18 +150,15 @@ def open_borrow_book():
 
     #Создание листа
     """
-    1. Поробовать создать отдельный списко для теста из книг
-    2. В случае работы, попытатся подключить работу класов, если это возможно
-    3. Если это будет не возможно тогда делаем так:
-        1. Оставляем лист для одолжения книг работать на основе информации с отдельного списками книг
-        2. Так как для реализации работы листа со списком добавленых книг будет не возможна, 
-         нужно начать работу над окном админа для добавления книг
-        3. Протестировать работу кода, добавить сохранения паролей и логинов в базу данных
+    1. Добавить скрол бар
+    2. проверку и вывод ошибки если список пуст
+    3. Настроить окно списка
     """
-    brw_books_list = tk.Listbox(borrow_book)
-    for i in lb.Library.get_list:
-        for x in len(lb.library.books_list):
-            brw_books_list.insert(x, i.title)
+    brw_books_list = tk.Listbox(borrow_book, height=20, width=150)
+    for i in library.get_list():
+        print(i)
+        brw_books_list.insert(tk.END, str(i))
+    brw_books_list.pack(anchor="center")
     
 
 

@@ -5,17 +5,17 @@ class Book:
         self.year = year
         self.is_avalible = True
 
-    #Getter
-    def get_info(self):
-        return f"Title: {self.title}, Author: {self.author}, Year: {self.year}"
+    #Метод для правильного вывода списка
+    def __str__(self):
+        return f"{self.title} by {self.author} ({self.year})"
 
 class Ebook(Book):
 
-    def get_info():
+    def get_info(self):
         return f"{super().get_info()} - Это електронная книга"
 
 class PrintedBook(Book):
-    def get_info():
+    def get_info(self):
         return f"{super().get_info()} - Это напечатаная книга"
 
 class Reader:
@@ -66,7 +66,6 @@ class Library:
                 print("Книга не найдена или не доступна")
 
     #Fix it
-    @property
     def get_list(self):
         return self.books_list
             
@@ -81,7 +80,7 @@ reader1 = Reader("Caya")
 library.add_book(book1)
 library.add_book(book2)
 
-for i in library.get_list:
+for i in library.get_list():
     print(i)
 
 
