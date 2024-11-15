@@ -150,16 +150,25 @@ def open_borrow_book():
 
     #Создание листа
     """
-    1. Добавить скрол бар
-    2. проверку и вывод ошибки если список пуст
-    3. Настроить окно списка
+    1. Настороить скрол бар
     """
-    brw_books_list = tk.Listbox(borrow_book, height=20, width=150)
-    for i in library.get_list():
-        print(i)
-        brw_books_list.insert(tk.END, str(i))
-    brw_books_list.pack(anchor="center")
-    
+    if library.get_list():
+        brw_books_list = tk.Listbox(borrow_book, height=20, width=50)
+        #Скролбар
+        scrollbar = tk.Scrollbar(borrow_book)
+        scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        #Привязка скрол бара к списку
+        brw_books_list.config(yscrollcommand=scrollbar.set)
+        scrollbar.config(command=brw_books_list.yview)
+        try:
+            for i in library.get_list():
+                if i.is_avalible:
+                    brw_books_list.insert(tk.END, str(i))
+            brw_books_list.pack(anchor="center")
+        except:
+            messagebox.showerror("Нет доступных книг")
+    else:
+        messagebox.showerror("Список пуст")
 
 
 root = tk.Tk()
