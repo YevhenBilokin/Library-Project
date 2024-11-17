@@ -106,9 +106,6 @@ def opem_admin_dashboard():
     send_info = tk.Button(admin_dashboard, text="Press", command=add_book)
     send_info.pack(anchor="center", side="left")
 
-    cb = tk.Button(admin_dashboard, text="тест", command=tester)
-    cb.pack(anchor="center", side="left")
-
 #Добавления книги в библиотеку
 def add_book():
     #Достаем данные которые ввел пользователь
@@ -124,13 +121,10 @@ def add_book():
     get_author.delete(0, 'end')
     get_year.delete(0, 'end')
 
-#Проверка на добавление книг в список
-def tester():
-    for i in library.get_list():
-        print(i)
-
 def open_borrow_book():
-    dashboard.destroy()
+    global brw_books_list
+
+    dashboard.withdraw()
 
     borrow_book = tk.Toplevel()
     borrow_book.title("Взять книгу")
@@ -150,7 +144,7 @@ def open_borrow_book():
 
     #Создание листа
     """
-    1. Настороить скрол бар
+    2. Реализовать сам метод взятие книги
     """
     if library.get_list():
         brw_books_list = tk.Listbox(borrow_book, height=20, width=50)
@@ -162,13 +156,30 @@ def open_borrow_book():
         scrollbar.config(command=brw_books_list.yview)
         try:
             for i in library.get_list():
-                if i.is_avalible:
+                if i.is_avalible == True:
                     brw_books_list.insert(tk.END, str(i))
             brw_books_list.pack(anchor="center")
-        except:
-            messagebox.showerror("Нет доступных книг")
+        except ValueError as e:
+            messagebox.showerror("Нет доступных книг", str(e))
+            borrow_book.destroy()
+            dashboard.deiconify()
     else:
-        messagebox.showerror("Список пуст")
+        messagebox.showerror("Ошибка","Список пуст")
+        borrow_book.destroy()
+        dashboard.deiconify()
+    
+    select_button = tk.Button(borrow_book, text="Взять книгу", command=on_book_selected)
+    select_button.pack(anchor="center", pady=10)
+
+def on_book_selected():
+    selected_index = brw_books_list.curselection()
+    if selected_index:
+        selected_book = brw_books_list.get(selected_index[0])
+        library.borrow_book(selected_book, user_name)
+        messagebox.showinfo("Выбранная книга", f"Вы выбрали книгу: {selected_book}")
+    else:
+        messagebox.showerror("Ошибка", "Вы не выбрали книгу!")
+
 
 
 root = tk.Tk()
